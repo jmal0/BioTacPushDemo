@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<launch>
+  <node name="biotac_sensors_pub" pkg="biotac_sensors" type="biotac_pub"
+output="screen">
+  </node>
+  <node name="BiotacPushDemo" pkg="BiotacPushDemo" type="demo.py" output="screen">
+  </node>
+
+</launch>
+
