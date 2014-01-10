@@ -4,7 +4,7 @@
   <node name="biotac_sensors_pub" pkg="biotac_sensors" type="biotac_pub"
 output="screen">
   </node>
-  <node name="BiotacPushDemo" pkg="BiotacPushDemo" type="demo.py" output="screen">
+  <node name="BiotacPushDemo" pkg="BioTacPushDemo" type="demo.py" output="screen">
   </node>
 
 </launch>
