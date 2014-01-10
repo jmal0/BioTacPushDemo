@@ -5,6 +5,7 @@ import rospy
 import time
 from hubomsg.msg import *
 from biotac_sensors.msg import *
+#Author: John Maloney
 
 # Constants determining how much pressure is considered not touching or pushing
 PRESSURE_TOUCHING = 2100 # This number is untested and not at all final
@@ -37,16 +38,16 @@ class Demo:
         rospy.spin()
 
     def sense(self, data):
-        btdata = data.bt_data
+        btdata = data.bt_datarepNew
         pressure = btdata[0].pdc_data
         print pressure
 
         # Sensor is not being touched. Extend hand outward
         if(pressure < PRESSURE_TOUCHING):
-            moveArm(1)
+            self.moveArm(1)
         # Sensor is being pushed. Retract hand
         elif(pressure > PRESSURE_PUSHING):
-            moveArm(-1)
+            self.moveArm(-1)
         # Else, sensor is being touched but not pushed. Do not move hand
 
     def moveArm(self, direction):
