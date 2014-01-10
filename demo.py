@@ -8,8 +8,8 @@ from biotac_sensors.msg import *
 #Author: John Maloney
 
 # Constants determining how much pressure is considered not touching or pushing
-PRESSURE_TOUCHING = 2000 # This number is untested and not at all final
-PRESSURE_PUSHING = 2100 # This number is untested and not at all final
+PRESSURE_TOUCHING = 2000
+PRESSURE_PUSHING = 2100
 
 # Constants for joint limits and position increment
 RSP_OUT = -1.0
@@ -18,7 +18,7 @@ RSP_RANGE = RSP_IN - RSP_OUT
 REP_OUT = -.7
 REP_IN = -1.4
 REP_RANGE = REP_OUT - REP_IN
-RSP_INCREMENT = .01 # Amount RSP changes. REP is a function of REP so they stay synchronized ## This number is untested
+RSP_INCREMENT = .01 # Amount RSP changes. REP is a function of RSP so they stay synchronized ## This number is untested
 
 class Demo:
     def __init__(self):
@@ -29,7 +29,6 @@ class Demo:
         print "Moving arm to start position"
         #self.pub.publish("RSP REP", "position position", str(RSP_OUT) + " " + str(REP_OUT), "")
         rospy.Subscriber("biotac_pub", BioTacHand, self.sense)
-        self.count = 0
         # Command arm to go to start position
         time.sleep(10) # Sleep to allow arm to move to start position
         self.pub.publish("RSP REP", "position position", str(RSP_OUT) + " " + str(REP_OUT), "")
