@@ -29,11 +29,6 @@ class Demo:
         time.sleep(1)
         print "Moving arm to start position"
         #self.pub.publish("RSP REP", "position position", str(RSP_OUT) + " " + str(REP_OUT), "")
-<<<<<<< HEAD
-        self.count = 0
-=======
-        rospy.Subscriber("biotac_pub", BioTacHand, self.sense)
->>>>>>> f15186baa07b54c5fb0ff69d899d444785372b24
         # Command arm to go to start position
          # Sleep to allow arm to move to start position
         self.pub.publish("RSP REP", "position position", str(RSP_IN) + " " + str(REP_IN), "")
