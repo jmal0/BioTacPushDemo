@@ -23,20 +23,21 @@ RSP_INCREMENT = .01 # Amount RSP changes. REP is a function of RSP so they stay 
 class Demo:
     def __init__(self):
         rospy.init_node("BioTacDemo")
+        
         self.pub = rospy.Publisher("Maestro/Control", PythonMessage) # Sends position commands
+        
+        self.count = 0
         self.RSP = RSP_IN
         self.REP = REP_IN
         time.sleep(1)
-        print "Moving arm to start position"
-        #self.pub.publish("RSP REP", "position position", str(RSP_OUT) + " " + str(REP_OUT), "")
+        
         # Command arm to go to start position
-         # Sleep to allow arm to move to start position
+        print "Moving arm to start position"
         self.pub.publish("RSP REP", "position position", str(RSP_IN) + " " + str(REP_IN), "")
         time.sleep(2)
         print "Starting demo"
+
         rospy.Subscriber("biotac_pub", BioTacHand, self.sense)
-
-
 
         rospy.spin()
 
@@ -44,8 +45,7 @@ class Demo:
         if self.count == 5:
             btdata = data.bt_data
             pressure = btdata[0].pdc_data
-            #self.pub.publish("RSP REP", "position position", ".5 .5", "")
-            #print pressure
+            print pressure
 
             # Sensor is not being touched. Extend hand outward
             if(pressure < PRESSURE_TOUCHING):
@@ -63,13 +63,11 @@ class Demo:
         repNew = -REP_RANGE/RSP_RANGE*(rspNew - RSP_IN) + REP_IN
         print "RSP: " + str(rspNew)
         print "REP: " + str(repNew)
-        if(rspNew > RSP_OUT and rspNew < RSP_IN and repNew < REP_OUT and repNew > REP_IN): # Make sure command positions are within arm in/out boundsb
+        if(rspNew > RSP_OUT and rspNew < RSP_IN and repNew < REP_OUT and repNew > REP_IN): # Make sure command positions are within arm in/out bounds
             self.pub.publish("RSP REP", "position position", str(rspNew) + " " + str(repNew), "")
             self.RSP = rspNew
             self.REP = repNew
                 
-
-        
 
 if __name__ == '__main__':
     try:
