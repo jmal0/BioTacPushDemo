@@ -19,11 +19,12 @@ REP_OUT = 0
 REP_IN = -1.34
 REP_RANGE = REP_OUT - REP_IN
 RSP_INCREMENT = .01 # Amount RSP changes. REP is a function of RSP so they stay synchronized ## This number is untested
+ID_NUM = 10
 
 class Demo:
     def __init__(self):
         rospy.init_node("BioTacDemo")
-        self.pub = rospy.Publisher("Maestro/Control", PythonMessage) # Sends position commands
+        self.pub = rospy.Publisher("Maestro/Control", MaestroCommand) # Sends position commands
         self.RSP = RSP_IN
         self.REP = REP_IN
         time.sleep(1)
@@ -31,7 +32,7 @@ class Demo:
         #self.pub.publish("RSP REP", "position position", str(RSP_OUT) + " " + str(REP_OUT), "")
         # Command arm to go to start position
          # Sleep to allow arm to move to start position
-        self.pub.publish("RSP REP", "position position", str(RSP_IN) + " " + str(REP_IN), "")
+        self.pub.publish("RSP REP", "position position", str(RSP_IN) + " " + str(REP_IN), "", ID_NUM)
         time.sleep(2)
         print "Starting demo"
         rospy.Subscriber("biotac_pub", BioTacHand, self.sense)
@@ -64,7 +65,7 @@ class Demo:
         print "RSP: " + str(rspNew)
         print "REP: " + str(repNew)
         if(rspNew > RSP_OUT and rspNew < RSP_IN and repNew < REP_OUT and repNew > REP_IN): # Make sure command positions are within arm in/out boundsb
-            self.pub.publish("RSP REP", "position position", str(rspNew) + " " + str(repNew), "")
+            self.pub.publish("RSP REP", "position position", str(rspNew) + " " + str(repNew), "", ID_NUM)
             self.RSP = rspNew
             self.REP = repNew
                 
