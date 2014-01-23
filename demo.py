@@ -24,20 +24,22 @@ ID_NUM = 10
 class Demo:
     def __init__(self):
         rospy.init_node("BioTacDemo")
+
         self.pub = rospy.Publisher("Maestro/Control", MaestroCommand) # Sends position commands
+        
+        self.count = 0
         self.RSP = RSP_IN
         self.REP = REP_IN
         time.sleep(1)
-        print "Moving arm to start position"
-        #self.pub.publish("RSP REP", "position position", str(RSP_OUT) + " " + str(REP_OUT), "")
+        
         # Command arm to go to start position
+
          # Sleep to allow arm to move to start position
         self.pub.publish("RSP REP", "position position", str(RSP_IN) + " " + str(REP_IN), "", ID_NUM)
         time.sleep(2)
         print "Starting demo"
+
         rospy.Subscriber("biotac_pub", BioTacHand, self.sense)
-
-
 
         rospy.spin()
 
@@ -45,8 +47,7 @@ class Demo:
         if self.count == 5:
             btdata = data.bt_data
             pressure = btdata[0].pdc_data
-            #self.pub.publish("RSP REP", "position position", ".5 .5", "")
-            #print pressure
+            print pressure
 
             # Sensor is not being touched. Extend hand outward
             if(pressure < PRESSURE_TOUCHING):
@@ -69,8 +70,6 @@ class Demo:
             self.RSP = rspNew
             self.REP = repNew
                 
-
-        
 
 if __name__ == '__main__':
     try:
