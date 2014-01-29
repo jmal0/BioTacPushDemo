@@ -6,7 +6,7 @@ This repository contains a ROS package that runs a demo for hubo through
 MAESTRO. The demo receives messages from Hubo's Biotac Sensors via a Biotac
 ros node. Depending on the pressure felt by Hubo's right index finger Biotac
 sensor, his arm will push outward, stay in place, or retract, allowing Hubo
-to ineteract with anyone by the touch of a finger.
+to interact with anyone by the touch of a finger.
 
 ****************************************************
 **************       REQUIREMENTS      *************
