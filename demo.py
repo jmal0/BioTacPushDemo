@@ -3,6 +3,7 @@
 import roslib; roslib.load_manifest('BioTacPushDemo')
 import rospy
 import time
+import sys
 from hubomsg.msg import *
 from biotac_sensors.msg import *
 
@@ -92,7 +93,26 @@ class Demo:
             self.pub.publish("RSP REP", "position position", str(rspNew) + " " + str(repNew), "")
             self.RSP = rspNew
             self.REP = repNew
-                
+
+    def exit():
+        print "Returning arm to home position"
+        self.pub.publish("RSP REP RF2", "position position position", "0 0 0", "")
+        time.sleep(3)
+
+        print "Exiting"
+        sys.exit()
+
+
+# This magic, courtesy of Eric Rock, magically listens for input in the roslaunching terminal
+def input_available():
+    rlist, wlist, elist = select.select([sys.stdin], [], [], 0)
+    if rlist:
+        return True
+    return False
 
 if __name__ == '__main__':
-    reactiveTouchdemo = Demo()
+    demo = Demo()
+    while not rospy.is_shutdown():
+        if input_available():
+            demo.exit()
+        time.sleep(.05)
