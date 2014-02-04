@@ -4,6 +4,7 @@ import roslib; roslib.load_manifest('BioTacPushDemo')
 import rospy
 import time
 import sys
+import select
 from hubomsg.msg import *
 from biotac_sensors.msg import *
 
@@ -39,12 +40,13 @@ class Demo:
         
         # Command arm to go to start position
         print "Moving arm to start position"
-        self.pub.publish("RSP REP RF2", "position position position", str(RSP_IN) + " " + str(REP_IN) + ".8", "")
+        self.pub.publish("RSP REP RF2", "position position position", str(RSP_IN) + " " + str(REP_IN) + " .8", "")
         time.sleep(3)
         print "Starting demo"
 
         rospy.Subscriber("biotac_pub", BioTacHand, self.sense)
 
+        rospy.on_shutdown(self.exit)
         rospy.spin()
 
     def sense(self, data):
@@ -94,13 +96,12 @@ class Demo:
             self.RSP = rspNew
             self.REP = repNew
 
-    def exit():
+    def exit(self):
+        rospy.sleep(1)
         print "Returning arm to home position"
         self.pub.publish("RSP REP RF2", "position position position", "0 0 0", "")
-        time.sleep(3)
 
         print "Exiting"
-        sys.exit()
 
 
 # This magic, courtesy of Eric Rock, magically listens for input in the roslaunching terminal
@@ -112,7 +113,3 @@ def input_available():
 
 if __name__ == '__main__':
     demo = Demo()
-    while not rospy.is_shutdown():
-        if input_available():
-            demo.exit()
-        time.sleep(.05)
