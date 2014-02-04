@@ -7,10 +7,10 @@ from hubomsg.msg import *
 from biotac_sensors.msg import *
 
 # Constants determining how much pressure is considered not touching or pushing
-PRESSURE_TOUCHING_LOW = 1950
-PRESSURE_TOUCHING_HIGH = 2000
-PRESSURE_PUSHING_LOW = 2050
-PRESSURE_PUSHING_HIGH = 2100
+PRESSURE_TOUCHING_LOW = 1810
+PRESSURE_TOUCHING_HIGH = 1840
+PRESSURE_PUSHING_LOW = 1950
+PRESSURE_PUSHING_HIGH = 1980
 
 # Constants for joint limits
 RSP_OUT = -1.38
@@ -20,7 +20,7 @@ REP_OUT = 0
 REP_IN = -1.34
 REP_RANGE = REP_OUT - REP_IN
 
-RSP_INCREMENT = .05 # Amount RSP changes. REP is a function of RSP so they stay synchronized
+RSP_INCREMENT = .06 # Amount RSP changes. REP is a function of RSP so they stay synchronized
 NUM = 20 # Number of messages to receive before publishing a position command
 
 class Demo:
@@ -68,7 +68,7 @@ class Demo:
             elif(ave < PRESSURE_PUSHING_LOW):
                 self.last = 0
             # Between touching and pushing
-            elif(ave < PRESSURE_PUSHING_HIGH)
+            elif(ave < PRESSURE_PUSHING_HIGH):
                 if self.last == 1:
                     self.moveArm(self.last)
                 else:
@@ -95,9 +95,4 @@ class Demo:
                 
 
 if __name__ == '__main__':
-    try:
-        reactiveTouchdemo = Demo()
-    except KeyboardInterrupt:
-        # Is this even doing anything?
-        print "Yes, this is doing something"
-        sys.exit()
+    reactiveTouchdemo = Demo()
