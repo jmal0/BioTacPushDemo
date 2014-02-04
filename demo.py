@@ -3,8 +3,6 @@
 import roslib; roslib.load_manifest('BioTacPushDemo')
 import rospy
 import time
-import sys
-import select
 from hubomsg.msg import *
 from biotac_sensors.msg import *
 
@@ -103,13 +101,6 @@ class Demo:
 
         print "Exiting"
 
-
-# This magic, courtesy of Eric Rock, magically listens for input in the roslaunching terminal
-def input_available():
-    rlist, wlist, elist = select.select([sys.stdin], [], [], 0)
-    if rlist:
-        return True
-    return False
 
 if __name__ == '__main__':
     demo = Demo()
