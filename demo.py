@@ -29,7 +29,7 @@ class Demo:
     def __init__(self):
         rospy.init_node("BioTacDemo")
         
-        self.pub = rospy.Publisher("Maestro/Control", MaestroMessage) # Sends position commands
+        self.pub = rospy.Publisher("Maestro/Control", MaestroCommand) # Sends position commands
         
         self.count = 1
         self.RSP = RSP_IN
