@@ -6,6 +6,8 @@ import time
 from hubomsg.msg import *
 from biotac_sensors.msg import *
 
+ID_NUM = 7
+
 # Constants determining how much pressure is considered not touching or pushing
 PRESSURE_TOUCHING_LOW = 1810
 PRESSURE_TOUCHING_HIGH = 1840
@@ -27,7 +29,7 @@ class Demo:
     def __init__(self):
         rospy.init_node("BioTacDemo")
         
-        self.pub = rospy.Publisher("Maestro/Control", PythonMessage) # Sends position commands
+        self.pub = rospy.Publisher("Maestro/Control", MaestroMessage) # Sends position commands
         
         self.count = 1
         self.RSP = RSP_IN
@@ -38,7 +40,7 @@ class Demo:
         
         # Command arm to go to start position
         print "Moving arm to start position"
-        self.pub.publish("RSP REP RF2", "position position position", str(RSP_IN) + " " + str(REP_IN) + " .8", "")
+        self.pub.publish("RSP REP RF2", "position position position", str(RSP_IN) + " " + str(REP_IN) + " .8", "", ID_NUM)
         time.sleep(3)
         print "Starting demo"
 
@@ -90,14 +92,14 @@ class Demo:
         print "RSP: " + str(rspNew)
         print "REP: " + str(repNew)
         if(rspNew > RSP_OUT and rspNew < RSP_IN and repNew < REP_OUT and repNew > REP_IN): # Make sure command positions are within arm in/out bounds
-            self.pub.publish("RSP REP", "position position", str(rspNew) + " " + str(repNew), "")
+            self.pub.publish("RSP REP", "position position", str(rspNew) + " " + str(repNew), "", ID_NUM)
             self.RSP = rspNew
             self.REP = repNew
 
     def exit(self):
         rospy.sleep(1)
         print "Returning arm to home position"
-        self.pub.publish("RSP REP RF2", "position position position", "0 0 0", "")
+        self.pub.publish("RSP REP RF2", "position position position", "0 0 0", "", ID_NUM)
 
         print "Exiting"
 
